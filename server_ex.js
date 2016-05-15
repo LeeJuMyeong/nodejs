@@ -12,6 +12,21 @@ var mysql = require('mysql');
 var hostname = '192.168.56.101';  
 var port = 3000;	// port number
 
+/*
+//Get client ip address 
+function getClientAddress(req) {
+	var ipAddress;
+	var forwardedIpsStr = req.header('x-forwarded-for');
+	if (forwardedIpsStr) {
+		var forwardeIps = forwardedIpsStr.split(',');
+		ipAddress = forwardedIps[0];
+	}
+	if (!ipAddress) {
+		ipAddress = req.connection.remoteAddress;
+	}
+	return ipAddress;
+}
+*/
 
 setTimeout(function() {
 	sys.puts('world');
@@ -24,9 +39,16 @@ http.createServer(function(req, res) {
 	//while (check_IP_address == '192.168.56.101') {}
 	if (req.method = 'GET') {
 		console.log('GET');
+		var ipAdd = req.headers["X-Forwarded-For"] || req.connection.remoteAddress;
+		// 요청이 오는 ipAddress 저장 
+		console.log(ipAdd);
 	} else if (req.method = 'POST') {
 		console.log('POST');
+		var ipAdd = req.headers["X-Forwarded-For"] || req.connection.remoteAddress;
+		console.log(ipAdd);
 	}
+		
+
 	res.end('Hello World\n');	//응답 본문 작성
 }).listen(port, hostname);
 
